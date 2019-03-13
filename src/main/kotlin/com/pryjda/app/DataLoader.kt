@@ -11,6 +11,7 @@ import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Component
 class DataLoader @Autowired constructor(val userRepository: UserRepository,
@@ -45,15 +46,15 @@ class DataLoader @Autowired constructor(val userRepository: UserRepository,
         userNo2.roles.add(roleUser)
         userNo3.roles.add(roleUser)
 
-        var lectureNo1: Lecture = Lecture(null, "Lecture No 1", "Kotlin programming", "John Smith")
+        var lectureNo1: Lecture = Lecture(null, "Lecture No 1", "Kotlin programming", "John Smith", LocalDateTime.of(2019, 3, 18, 7, 0))
         lectureNo1.users.add(userNo1)
         lectureNo1.users.add(userNo2)
         lectureNo1.users.add(userNo3)
 
-        var lectureNo2: Lecture = Lecture(null, "Lecture No 2", "Kotlin programming part 2", "John Smith")
+        var lectureNo2: Lecture = Lecture(null, "Lecture No 2", "Kotlin programming part 2", "John Smith", LocalDateTime.of(2019, 3, 19, 7, 0))
         lectureNo2.users.add(userNo2)
 
-        var lectureNo3: Lecture = Lecture(null, "Lecture No 3", "Kotlin programming part 3", "John Smith")
+        var lectureNo3: Lecture = Lecture(null, "Lecture No 3", "Kotlin programming part 3", "John Smith", LocalDateTime.of(2019, 3, 20, 7, 0))
         lectureNo3.users.add(userNo1)
 
         lectureRepository.save(lectureNo1)

@@ -23,5 +23,5 @@ class LectureController(@Autowired val lectureService: LectureService) {
                           @PathVariable id: Long): Lecture = lectureService.updateLectureById(id, lecture)
 
     @DeleteMapping("/{id}")
-    fun deleteLectureById(id: Long): Boolean = lectureService.deleteLectureById(id)
+    fun deleteLectureById(id: Long) = lectureService.deleteLectureById(id)
 }

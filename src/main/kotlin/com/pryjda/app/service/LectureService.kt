@@ -8,5 +8,5 @@ interface LectureService {
     fun readSingleLecture(id: Long): Lecture
     fun createLecture(lecture: Lecture): Lecture
     fun updateLectureById(id: Long, lecture: Lecture): Lecture
-    fun deleteLectureById(id: Long): Boolean
+    fun deleteLectureById(id: Long)
 }

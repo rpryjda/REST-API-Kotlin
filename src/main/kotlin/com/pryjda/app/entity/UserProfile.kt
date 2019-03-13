@@ -13,5 +13,6 @@ data class UserProfile(
         var courseOfStudy: String? = null) {
 
     @OneToOne(mappedBy = "userProfile")
+    @Transient
     var user: User? = null
 }
