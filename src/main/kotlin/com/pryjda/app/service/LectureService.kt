@@ -1,12 +1,13 @@
 package com.pryjda.app.service
 
-import com.pryjda.app.entity.Lecture
+import com.pryjda.app.model.request.LectureRequestDTO
+import com.pryjda.app.model.response.LectureResponseDTO
 
 interface LectureService {
 
-    fun readLectures(): List<Lecture>
-    fun readSingleLecture(id: Long): Lecture
-    fun createLecture(lecture: Lecture): Lecture
-    fun updateLectureById(id: Long, lecture: Lecture): Lecture
+    fun readLectures(): List<LectureResponseDTO>
+    fun readSingleLecture(id: Long): LectureResponseDTO
+    fun createLecture(lecture: LectureRequestDTO): LectureResponseDTO
+    fun updateLectureById(id: Long, lecture: LectureRequestDTO): LectureResponseDTO
     fun deleteLectureById(id: Long)
 }

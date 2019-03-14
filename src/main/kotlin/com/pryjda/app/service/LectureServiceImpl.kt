@@ -1,35 +1,48 @@
 package com.pryjda.app.service
 
+import com.pryjda.app.component.ObjectConverter
 import com.pryjda.app.entity.Lecture
 import com.pryjda.app.exception.WrongLectureIdException
+import com.pryjda.app.model.request.LectureRequestDTO
+import com.pryjda.app.model.response.LectureResponseDTO
 import com.pryjda.app.repository.LectureRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class LectureServiceImpl(@Autowired val lectureRepository: LectureRepository) : LectureService {
+class LectureServiceImpl @Autowired constructor(val lectureRepository: LectureRepository,
+                                                val converter: ObjectConverter) : LectureService {
 
-    override fun readLectures(): List<Lecture> = lectureRepository.findAll()
+    override fun readLectures(): List<LectureResponseDTO> = lectureRepository
+            .findAll()
+            .map { converter.mapLectureToLectureResponseDTO(it) }
 
-    override fun readSingleLecture(id: Long): Lecture = lectureRepository.getOne(id)
 
-    override fun createLecture(lecture: Lecture): Lecture = lectureRepository.save(lecture)
+    override fun readSingleLecture(id: Long): LectureResponseDTO = lectureRepository
+            .findById(id)
+            .map { converter.mapLectureToLectureResponseDTO(it) }
+            .orElseThrow { WrongLectureIdException("Wrong id number for lecture") }
+
+    override fun createLecture(lectureRequestDTO: LectureRequestDTO): LectureResponseDTO {
+        var lecture: Lecture = converter.mapLectureRequestDTOtoLecture(lectureRequestDTO)
+        lectureRepository.save(lecture)
+        return converter.mapLectureToLectureResponseDTO(lecture)
+    }
 
     @Transactional
-    override fun updateLectureById(id: Long, lecture: Lecture): Lecture = lectureRepository
+    override fun updateLectureById(id: Long, lectureRequestDTO: LectureRequestDTO): LectureResponseDTO = lectureRepository
             .findById(id)
             .map {
-                if (lecture.describtion != null) it.describtion = lecture.describtion
-                if (lecture.title != null) it.title = lecture.title
-                if (lecture.lecturer != null) it.lecturer = lecture.lecturer
-                it
+                if (lectureRequestDTO.description != null) it.description = lectureRequestDTO.description
+                if (lectureRequestDTO.title != null) it.title = lectureRequestDTO.title
+                if (lectureRequestDTO.lecturer != null) it.lecturer = lectureRequestDTO.lecturer
+                converter.mapLectureToLectureResponseDTO(it)
             }
             .orElseThrow { WrongLectureIdException("Wrong id number for lecture") }
 
-
     override fun deleteLectureById(id: Long) = lectureRepository
             .findById(id)
-            .map { lectureRepository.delete(it) }
+            .map { lectureRepository.deleteById(id) }
             .orElseThrow { WrongLectureIdException("Wrong id number for lecture") }
 }

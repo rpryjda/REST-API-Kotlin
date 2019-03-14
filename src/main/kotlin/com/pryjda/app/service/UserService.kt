@@ -1,12 +1,13 @@
 package com.pryjda.app.service
 
-import com.pryjda.app.entity.User
+import com.pryjda.app.model.request.UserRequestDTO
+import com.pryjda.app.model.response.UserResponseDTO
 
 interface UserService {
 
-    fun readUsers(): List<User>
-    fun readSingleUser(id: Long): User
-    fun createUser(user: User): User
-    fun updateUser(id: Long, user: User): User
-    fun deleteUser(id: Long): Boolean
+    fun readUsers(): List<UserResponseDTO>
+    fun readSingleUser(id: Long): UserResponseDTO
+    fun createUser(user: UserRequestDTO): UserResponseDTO
+    fun updateUser(id: Long, user: UserRequestDTO): UserResponseDTO
+    fun deleteUser(id: Long)
 }

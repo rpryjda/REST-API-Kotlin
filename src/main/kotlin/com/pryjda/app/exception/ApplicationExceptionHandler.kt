@@ -15,4 +15,10 @@ class ApplicationExceptionHandler {
         val errorMessage: ErrorMessage = ErrorMessage(LocalDateTime.now(), exe.localizedMessage)
         return ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.NOT_FOUND)
     }
+
+    @ExceptionHandler
+    fun handleWrongUserIdException(exe: WrongUserIdException): ResponseEntity<ErrorMessage> {
+        val errorMessage: ErrorMessage = ErrorMessage(LocalDateTime.now(), exe.localizedMessage)
+        return ResponseEntity(errorMessage, HttpStatus.NOT_FOUND)
+    }
 }

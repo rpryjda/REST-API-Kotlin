@@ -1,6 +1,7 @@
 package com.pryjda.app.controller
 
-import com.pryjda.app.entity.User
+import com.pryjda.app.model.request.UserRequestDTO
+import com.pryjda.app.model.response.UserResponseDTO
 import com.pryjda.app.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -10,17 +11,17 @@ import org.springframework.web.bind.annotation.*
 class UserController(@Autowired val userService: UserService) {
 
     @GetMapping
-    fun getUsers(): List<User> = userService.readUsers()
+    fun getUsers(): List<UserResponseDTO> = userService.readUsers()
 
     @GetMapping("/{id}")
-    fun getSingleUser(@PathVariable id: Long): User = userService.readSingleUser(id)
+    fun getSingleUser(@PathVariable id: Long): UserResponseDTO = userService.readSingleUser(id)
 
     @PostMapping
-    fun createUser(@RequestBody user: User): User = userService.createUser(user)
+    fun createUser(@RequestBody user: UserRequestDTO): UserResponseDTO = userService.createUser(user)
 
     @PutMapping("/{id}")
-    fun update(@RequestBody user: User, @PathVariable id: Long): User = userService.updateUser(id, user)
+    fun update(@RequestBody user: UserRequestDTO, @PathVariable id: Long): UserResponseDTO = userService.updateUser(id, user)
 
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: Long): Boolean = userService.deleteUser(id)
+    fun deleteUser(@PathVariable id: Long) = userService.deleteUser(id)
 }
