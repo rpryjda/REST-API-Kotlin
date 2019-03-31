@@ -2,6 +2,7 @@ HELP.md
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 src/main/kotlin/com/pryjda/app/test/
+src/main/kotlin/com/pryjda/app/consumer/
 
 ### STS ###
 .apt_generated

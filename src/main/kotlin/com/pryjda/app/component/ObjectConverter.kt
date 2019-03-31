@@ -36,7 +36,7 @@ class ObjectConverter {
             UserProfile(null,
                     userRequestDTO.name,
                     userRequestDTO.surname,
-                    userRequestDTO.academicYear,
+                    userRequestDTO.academicYear?.name,
                     userRequestDTO.courseOfStudy)
 
     fun mapUserAndUserProfileToUserResponseDTO(user: User, userProfile: UserProfile?): UserResponseDTO =

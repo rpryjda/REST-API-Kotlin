@@ -40,7 +40,7 @@ class UserServiceImpl @Autowired constructor(val userRepository: UserRepository,
                 if (userReqestDTO.indexNumber != null) it.indexNumber = userReqestDTO.indexNumber
                 if (userReqestDTO.name != null) it.userProfile?.name = userReqestDTO.name
                 if (userReqestDTO.surname != null) it.userProfile?.surname = userReqestDTO.surname
-                if (userReqestDTO.academicYear != null) it.userProfile?.academicYear = userReqestDTO.academicYear
+                if (userReqestDTO.academicYear != null) it.userProfile?.academicYear = userReqestDTO.academicYear?.name
                 if (userReqestDTO.courseOfStudy != null) it.userProfile?.courseOfStudy = userReqestDTO.courseOfStudy
                 converter.mapUserAndUserProfileToUserResponseDTO(it, it.userProfile)
             }

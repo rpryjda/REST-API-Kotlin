@@ -1,9 +1,11 @@
 package com.pryjda.app.controller
 
 import com.pryjda.app.model.request.UserRequestDTO
+import com.pryjda.app.model.request.validation.order.CreateUserSequence
 import com.pryjda.app.model.response.UserResponseDTO
 import com.pryjda.app.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -17,7 +19,7 @@ class UserController(@Autowired val userService: UserService) {
     fun getSingleUser(@PathVariable id: Long): UserResponseDTO = userService.readSingleUser(id)
 
     @PostMapping
-    fun createUser(@RequestBody user: UserRequestDTO): UserResponseDTO = userService.createUser(user)
+    fun createUser(@Validated(value = CreateUserSequence::class) @RequestBody user: UserRequestDTO): UserResponseDTO = userService.createUser(user)
 
     @PutMapping("/{id}")
     fun update(@RequestBody user: UserRequestDTO, @PathVariable id: Long): UserResponseDTO = userService.updateUser(id, user)

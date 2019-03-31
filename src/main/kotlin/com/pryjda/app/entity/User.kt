@@ -17,7 +17,7 @@ data class User(
     @ManyToMany(mappedBy = "users")
     var lectures: MutableSet<Lecture> = mutableSetOf()
 
-    @ManyToMany(cascade = arrayOf(CascadeType.MERGE, CascadeType.PERSIST))
+    @ManyToMany(cascade = arrayOf(CascadeType.MERGE, CascadeType.PERSIST), fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = arrayOf(JoinColumn(name = "user_id", referencedColumnName = "id")),
