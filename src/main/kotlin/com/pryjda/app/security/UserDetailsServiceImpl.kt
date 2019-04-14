@@ -17,7 +17,7 @@ class UserDetailsServiceImpl(val userRepository: UserRepository) : UserDetailsSe
                 it.roles.forEach { userRole -> authorities.add(SimpleGrantedAuthority(userRole.name)) }
                 User
                         .withUsername(it.email)
-                        .password("{noop}${it.password}")
+                        .password(it.password)
                         .authorities(authorities)
                         .build()
             }

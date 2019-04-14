@@ -9,22 +9,27 @@ import com.pryjda.app.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Component
 class DataLoader @Autowired constructor(val userRepository: UserRepository,
-                                        val lectureRepository: LectureRepository) : ApplicationRunner {
+                                        val lectureRepository: LectureRepository,
+                                        val bCryptPasswordEncoder: BCryptPasswordEncoder) : ApplicationRunner {
 
     @Transactional
     override fun run(args: ApplicationArguments?) {
 
-        var admin: User = User(null, "admin@op.pl", "admin1234", null, true)
+        val bCryptedPasswordAdmin = bCryptPasswordEncoder.encode("admin1234")
+        var admin: User = User(null, "admin@op.pl", bCryptedPasswordAdmin, null, true)
 
-        var userNo1: User = User(null, "email_No_1@op.pl", "1234", 100266, true)
-        var userNo2: User = User(null, "email_No_2@op.pl", "1234", 200266, true)
-        var userNo3: User = User(null, "email_No_3@op.pl", "1234", 300266, true)
+        val bCryptedPasswordUser = bCryptPasswordEncoder.encode("1234")
+
+        var userNo1: User = User(null, "email_No_1@op.pl", bCryptedPasswordUser, 100266, true)
+        var userNo2: User = User(null, "email_No_2@op.pl", bCryptedPasswordUser, 200266, true)
+        var userNo3: User = User(null, "email_No_3@op.pl", bCryptedPasswordUser, 300266, true)
 
         var userProfileNo1: UserProfile = UserProfile(null, "Rafał", "Kalinowaski", "Second", "IT")
         var userProfileNo2: UserProfile = UserProfile(null, "Norbert", "Miły", "Third", "Civil Engeenering")
@@ -34,8 +39,8 @@ class DataLoader @Autowired constructor(val userRepository: UserRepository,
         userNo2.userProfile = userProfileNo2
         userNo3.userProfile = userProfileNo3
 
-        var roleAdmin: Role = Role(null, "ADMIN")
-        var roleUser: Role = Role(null, "USER")
+        var roleAdmin: Role = Role(null, "ROLE_ADMIN")
+        var roleUser: Role = Role(null, "ROLE_USER")
 
         admin.roles.add(roleAdmin)
         admin.roles.add(roleUser)
