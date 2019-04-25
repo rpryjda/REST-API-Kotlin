@@ -1,6 +1,7 @@
 package com.pryjda.app.exception
 
 import com.pryjda.app.model.response.ErrorMessage
+import org.apache.commons.lang3.StringUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -30,9 +31,24 @@ class ApplicationExceptionHandler {
         return ResponseEntity(errorMessage, HttpStatus.UNPROCESSABLE_ENTITY)
     }
 
+//    @ExceptionHandler
+//    fun handleInvalidFormatException(exe: InvalidFormatException): ResponseEntity<ErrorMessage> {
+//        val errorMessage: ErrorMessage = ErrorMessage(LocalDateTime.now(), exe.localizedMessage)
+//        return ResponseEntity(errorMessage, HttpStatus.UNPROCESSABLE_ENTITY)
+//    }
+
     @ExceptionHandler
     fun handleValidationExceptionHttpMessageNotReadable(exe: HttpMessageNotReadableException): ResponseEntity<ErrorMessage> {
-        val errorMessage: ErrorMessage = ErrorMessage(LocalDateTime.now(), exe.localizedMessage)
+
+        var localizedMessage = exe.localizedMessage
+
+        if (localizedMessage.indexOf("value not one of declared Enum instance names:") != -1) {
+            val enumValuesString: String = StringUtils.substringBetween(localizedMessage, "value not one of declared Enum instance names: ", ";")
+            localizedMessage = "Uncorrect constant values, values should be taken from: $enumValuesString"
+            //com.fasterxml.jackson.databind.exc.InvalidFormatException
+        }
+
+        val errorMessage: ErrorMessage = ErrorMessage(LocalDateTime.now(), localizedMessage)
         return ResponseEntity(errorMessage, HttpStatus.UNPROCESSABLE_ENTITY)
     }
 }

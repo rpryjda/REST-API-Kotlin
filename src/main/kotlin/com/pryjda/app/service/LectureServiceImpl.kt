@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class LectureServiceImpl @Autowired constructor(val lectureRepository: LectureRepository,
                                                 val converter: ObjectConverter) : LectureService {
+//    override fun getLecturesPaginated(page: Int, size: Int) {
+//        return lectureRepository.findAllBy(PageRequest.of(page,size))
+//    }
 
     override fun readLectures(): List<LectureResponseDTO> = lectureRepository
             .findAll()

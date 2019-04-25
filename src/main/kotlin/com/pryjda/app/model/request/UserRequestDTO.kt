@@ -4,7 +4,8 @@ import com.pryjda.app.model.request.enum_field.AcademicYear
 import com.pryjda.app.model.request.validation.order.CreateUserStep_no1
 import com.pryjda.app.model.request.validation.order.CreateUserStep_no2
 import com.pryjda.app.model.request.validation.order.CreateUserStep_no3
-import com.pryjda.app.model.request.validation.unique_email_validator.UniqueEmail
+import com.pryjda.app.model.request.validation.validators.EnumValues
+import com.pryjda.app.model.request.validation.validators.UniqueEmail
 import javax.validation.constraints.*
 
 data class UserRequestDTO(
@@ -18,7 +19,7 @@ data class UserRequestDTO(
 
         @field: NotBlank(message = "E-mail is required", groups = arrayOf(CreateUserStep_no1::class))
         @field: Email(message = "Incorrect e-mail address", groups = arrayOf(CreateUserStep_no2::class))
-        @field: UniqueEmail(message = "here", groups = arrayOf(CreateUserStep_no3::class))
+        @field: UniqueEmail(groups = arrayOf(CreateUserStep_no3::class))
         val email: String?,
 
         @field: NotBlank(message = "Password is required", groups = arrayOf(CreateUserStep_no1::class))
@@ -29,5 +30,6 @@ data class UserRequestDTO(
         @field: Positive(message = "Index number must be positive number", groups = arrayOf(CreateUserStep_no2::class))
         val indexNumber: Int?,
 
+        @field:EnumValues(groups = arrayOf(CreateUserStep_no1::class))
         val academicYear: AcademicYear?,
         val courseOfStudy: String?)

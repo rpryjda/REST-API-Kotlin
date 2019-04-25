@@ -10,4 +10,5 @@ interface LectureService {
     fun createLecture(lecture: LectureRequestDTO): LectureResponseDTO
     fun updateLectureById(id: Long, lecture: LectureRequestDTO): LectureResponseDTO
     fun deleteLectureById(id: Long)
+//    fun getLecturesPaginated(page: Int, size: Int)
 }
