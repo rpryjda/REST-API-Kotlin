@@ -2,6 +2,8 @@ package com.pryjda.app.security
 
 import com.pryjda.app.filter.JWTAuthenticationFilter
 import com.pryjda.app.filter.JWTAuthorizationFilter
+import com.pryjda.app.filter.JwtConfigurer
+import com.pryjda.app.filter.JwtTokenProvider
 import com.pryjda.app.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -15,7 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(@Autowired val userRepository: UserRepository) : WebSecurityConfigurerAdapter() {
+class SecurityConfig(@Autowired val userRepository: UserRepository,
+                     val jwtTokenProvider: JwtTokenProvider) : WebSecurityConfigurerAdapter() {
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth
@@ -25,11 +28,13 @@ class SecurityConfig(@Autowired val userRepository: UserRepository) : WebSecurit
 
     override fun configure(http: HttpSecurity?) {
         http
-                ?.httpBasic()
-                ?.and()
+                ?.httpBasic()?.disable()
+//                ?.and()
                 ?.authorizeRequests()
                 ?.anyRequest()
                 ?.fullyAuthenticated()
+                ?.and()
+                ?.apply(JwtConfigurer(jwtTokenProvider))
                 ?.and()
 //                ?.addFilter(JWTAuthenticationFilter(authenticationManager()))
 //                ?.addFilter(JWTAuthorizationFilter(authenticationManager()))
