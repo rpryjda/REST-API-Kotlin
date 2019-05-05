@@ -1,16 +1,22 @@
 package com.pryjda.app.controller
 
-import com.pryjda.app.filter.JwtTokenProvider
+import com.pryjda.app.service.AuthenticationService
+import com.pryjda.app.model.request.AuthRequestDTO
+import com.pryjda.app.model.response.AuthResponseDTO
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-class JwtController(val jwtTokenProvider: JwtTokenProvider) {
+class JwtController(val authService: AuthenticationService) {
 
-    @GetMapping("/token")
-    fun getToken(@AuthenticationPrincipal userDetails: UserDetails): String =
-            jwtTokenProvider.createToken(userDetails.username,
-                    userDetails.authorities.map { it.authority })
+    @GetMapping("/auth-header")
+    fun authenticateByHeader(@AuthenticationPrincipal userDetails: UserDetails,
+                             @RequestParam(value = "auth-way", required = false) authWay: String?): AuthResponseDTO =
+            authService.authenticateByBasicAuth(userDetails, authWay)
+
+    @PostMapping("/auth-body")
+    fun authenticateByBody(@RequestBody authRequestDTO: AuthRequestDTO,
+                           @RequestParam(value = "auth-way", required = false) authWay: String?): AuthResponseDTO =
+            authService.authenticateByRequestBody(authRequestDTO, authWay)
 }

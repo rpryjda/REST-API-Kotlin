@@ -1,6 +1,7 @@
 package com.pryjda.app.filter
 
-import org.springframework.security.core.Authentication
+import com.pryjda.app.filter.jwt.JwtTokenProvider
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.GenericFilterBean
 import javax.servlet.FilterChain
@@ -14,9 +15,20 @@ class JwtTokenFilter(private val jwtTokenProvider: JwtTokenProvider) : GenericFi
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         val token = jwtTokenProvider.resolveToken(request as HttpServletRequest)
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            val auth: Authentication = token?.let { jwtTokenProvider.getAuthentication(token) }
+            val auth: UsernamePasswordAuthenticationToken = token.let { jwtTokenProvider.getAuthentication(token) }
             SecurityContextHolder.getContext().authentication = auth
+            println("jestem tu: " + SecurityContextHolder.getContext().authentication.principal)
         }
         chain.doFilter(request, response)
     }
+
+//    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+//        val token = jwtTokenProvider.resolveToken(request as HttpServletRequest)
+//        if (token != null && jwtTokenProvider.validateTokenRSA(token)) {
+//            val auth: UsernamePasswordAuthenticationToken = token.let { jwtTokenProvider.getAuthenticationRSA(token) }
+//            SecurityContextHolder.getContext().authentication = auth
+//            println("jestem tu: " + SecurityContextHolder.getContext().authentication.principal)
+//        }
+//        chain.doFilter(request, response)
+//    }
 }

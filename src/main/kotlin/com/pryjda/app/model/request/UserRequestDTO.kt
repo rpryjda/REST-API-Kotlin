@@ -4,7 +4,8 @@ import com.pryjda.app.model.request.enum_field.AcademicYear
 import com.pryjda.app.model.request.validation.order.CreateUserStep_no1
 import com.pryjda.app.model.request.validation.order.CreateUserStep_no2
 import com.pryjda.app.model.request.validation.order.CreateUserStep_no3
-import com.pryjda.app.model.request.validation.validators.EnumValues
+import com.pryjda.app.model.request.validation.validators.EnumValues2
+import com.pryjda.app.model.request.validation.validators.EnumValues3
 import com.pryjda.app.model.request.validation.validators.UniqueEmail
 import javax.validation.constraints.*
 
@@ -30,6 +31,9 @@ data class UserRequestDTO(
         @field: Positive(message = "Index number must be positive number", groups = arrayOf(CreateUserStep_no2::class))
         val indexNumber: Int?,
 
-        @field:EnumValues(groups = arrayOf(CreateUserStep_no1::class))
+//        @field:EnumValues(groups = arrayOf(CreateUserStep_no1::class))
+        @field:EnumValues2(groups = arrayOf(CreateUserStep_no1::class))
         val academicYear: AcademicYear?,
+
+        @field:EnumValues3(groups = arrayOf(CreateUserStep_no1::class))
         val courseOfStudy: String?)

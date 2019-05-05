@@ -31,6 +31,12 @@ class ApplicationExceptionHandler {
         return ResponseEntity(errorMessage, HttpStatus.UNPROCESSABLE_ENTITY)
     }
 
+    @ExceptionHandler
+    fun handleValidationException(exe: ValidationException): ResponseEntity<ErrorMessage> {
+        val errorMessage: ErrorMessage = ErrorMessage(LocalDateTime.now(), exe.localizedMessage)
+        return ResponseEntity(errorMessage, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
 //    @ExceptionHandler
 //    fun handleInvalidFormatException(exe: InvalidFormatException): ResponseEntity<ErrorMessage> {
 //        val errorMessage: ErrorMessage = ErrorMessage(LocalDateTime.now(), exe.localizedMessage)
