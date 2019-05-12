@@ -2,8 +2,10 @@ package com.pryjda.app.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.pryjda.app.component.PrivateKeyBean
+import com.pryjda.app.model.request.MessageRequestDTO
 import com.pryjda.app.model.request.SampleRequestDTO
 import com.pryjda.app.model.response.*
+import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.Base64
 import org.springframework.stereotype.Service
@@ -19,6 +21,9 @@ fun main(args: Array<String>) {
 
 @Service
 class EncryptingServiceImpl(val mapper: ObjectMapper) : EncryptingService {
+
+    override fun hashMessage(message: MessageRequestDTO): MessageResponseDTO =
+            MessageResponseDTO(DigestUtils.sha256Hex(message.message))
 
     override fun encryptAesUserBody(message: UserResponseDTO, keyAES: String): String {
         val secretKeySpec = SecretKeySpec(keyAES.toByteArray(StandardCharsets.UTF_8), "AES")

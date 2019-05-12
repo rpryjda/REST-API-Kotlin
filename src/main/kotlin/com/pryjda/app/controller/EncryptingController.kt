@@ -5,10 +5,8 @@ import com.pryjda.app.component.PrivateKeyBean
 import com.pryjda.app.model.request.SampleRequestDTO
 import com.pryjda.app.model.request.EncryptedMessageRequestDTO
 import com.pryjda.app.model.request.EncryptingRequestDTO
-import com.pryjda.app.model.response.DecryptedMessageResponseDTO
-import com.pryjda.app.model.response.EncryptedMessageResponseDTO
-import com.pryjda.app.model.response.KeysResponseDTO
-import com.pryjda.app.model.response.PublicKeyResponseDTO
+import com.pryjda.app.model.request.MessageRequestDTO
+import com.pryjda.app.model.response.*
 import com.pryjda.app.service.EncryptingService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -63,4 +61,12 @@ class EncryptingController(val encryptingService: EncryptingService,
     @PostMapping("/decrypt-request")
     fun decryptAesObject(@RequestBody message: String): SampleRequestDTO =
             encryptingService.decryptAesAnyBody(message, keyAES)
+
+    @PostMapping("/hash")
+    fun hashMessage(@RequestBody message: MessageRequestDTO): MessageResponseDTO = encryptingService.hashMessage(message)
+
+    //js:
+    //var text = "message";
+    //var hashed = CryptoJS.SHA256(text);
+    //console.log(hashed.toString())
 }

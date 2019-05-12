@@ -1,5 +1,6 @@
 package com.pryjda.app.service
 
+import com.pryjda.app.model.request.MessageRequestDTO
 import com.pryjda.app.model.request.SampleRequestDTO
 import com.pryjda.app.model.response.*
 
@@ -19,4 +20,6 @@ interface EncryptingService {
 
     fun encryptAesUserBody(message: UserResponseDTO, keyAES: String): String
     fun decryptAesUserBody(message: String, keyAES: String): UserResponseDTO
+
+    fun hashMessage(message: MessageRequestDTO): MessageResponseDTO
 }
